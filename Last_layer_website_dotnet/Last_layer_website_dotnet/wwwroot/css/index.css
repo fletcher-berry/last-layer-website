@@ -1,0 +1,31 @@
+﻿
+.MainLinks {
+    margin: auto;
+    width: 800px;
+    vertical-align: top;
+    text-align: center;
+}
+
+.MainPage {
+    padding: 10px;
+}
+
+.OllLink {
+    float: right;
+    font-size: 18px;
+    width: 50%;
+}
+
+.PllLink {
+    float: left;
+    font-size: 18px;
+    width: 50%;
+}
+
+.clear {
+    clear: both;
+}
+
+.MainPage {
+    background-color: #dddddd;
+}
