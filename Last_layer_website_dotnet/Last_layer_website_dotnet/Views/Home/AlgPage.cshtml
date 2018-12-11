@@ -1,0 +1,26 @@
+﻿@model AlgPage
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Algorithms</title>
+        <script src="~/js/algPage.js"></script>
+        <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+        <link rel="stylesheet" type="text/css" href="~/css/index.css" />
+    </head>
+    <body>
+        <partial name="header" />
+        <h2>Algs</h2>
+        <table>
+            @foreach(var algCase in Model.Cases)
+            {
+                <partial name="CaseView" model="algCase" />
+            }
+        </table>
+    </body>
+</html>

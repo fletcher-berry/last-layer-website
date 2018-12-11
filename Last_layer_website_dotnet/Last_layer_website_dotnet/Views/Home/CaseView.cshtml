@@ -1,0 +1,21 @@
+﻿@model AlgCase
+
+<tr>
+    @* include image *@
+    <td>Insert image here</td>
+    <td>
+        <ul>
+            @if (Model.Algorithms.Count == 0)
+            {
+                <li class="alg">No algs available</li>
+            }
+            else
+            {
+                foreach(var alg in Model.Algorithms)
+                {
+                    <li class="alg">@alg.Alg <span class="source" style="display:none"> (@(alg.SourceNumber + (alg.Modified? "*" : "")) </span></li>
+                }
+            }
+        </ul>
+    </td>
+</tr>
