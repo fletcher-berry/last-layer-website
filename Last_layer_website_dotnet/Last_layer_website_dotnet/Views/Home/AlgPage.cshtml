@@ -9,18 +9,27 @@
     <head>
         <meta name="viewport" content="width=device-width" />
         <title>Algorithms</title>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/js/algPage.js"></script>
         <link rel="stylesheet" type="text/css" href="~/css/site.css" />
         <link rel="stylesheet" type="text/css" href="~/css/index.css" />
+        <link rel="stylesheet" type="text/css" href="~/css/algPage.css" />
     </head>
     <body>
         <partial name="header" />
-        <h2>Algs</h2>
-        <table>
-            @foreach(var algCase in Model.Cases)
-            {
-                <partial name="CaseView" model="algCase" />
-            }
-        </table>
+        <div class="Content">
+            <div class="Algs">
+                <h2>Algs</h2>
+                <table>
+                    @foreach (var algCase in Model.Cases)
+                    {
+                        <partial name="CaseView" model="algCase" />
+                    }
+                </table>
+            </div>
+            <div class="Sources">
+                <button id="show_sources_button">Show sources</button>
+            </div>
+        </div>
     </body>
 </html>

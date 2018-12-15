@@ -1,0 +1,14 @@
+﻿table, tr, td {
+    border: 1px solid black;
+}
+td {
+    padding: 0px 10px 0px 10px;
+}
+.Algs {
+    background-color: #ccaaee;
+}
+
+.Sources {
+    background-color: #ddeebb;
+    padding: 5px;
+}

@@ -31,8 +31,8 @@ namespace Last_layer_website_dotnet
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-
+            var connectionString = Configuration.GetConnectionString("CubingAlgDb");
+            services.AddTransient<IAlgorithmService>(s => new AlgorithmService(connectionString));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

@@ -8,13 +8,19 @@ using MySql.Data.MySqlClient;
 
 namespace Last_layer_website_dotnet.Database
 {
-    public class AlgorithmService
+    public class AlgorithmService : IAlgorithmService
     {
-        public DbSettings DbSettings;
+        public string ConnectionString;
+
+        public AlgorithmService(string connectionString)
+        {
+            ConnectionString = connectionString;
+        }
 
         public AlgPage GetOll()
         {
-            var conn = GetConnection();
+            var conn = new MySqlConnection(ConnectionString);
+            conn.Open();
             var query = @"SELECT algorithm.alg, algorithm.source_id, alg_case.case_number, algorithm.modified
 FROM algorithm JOIN alg_case ON algorithm.case_id = alg_case.id
 WHERE alg_case.type = 'OLL'
@@ -29,7 +35,7 @@ ORDER BY alg_case.case_number";
                 int? sourceId = reader[1].Equals(DBNull.Value) ? null : (int?)Convert.ToInt32(reader[1]);
                 var caseNumber = Convert.ToInt32(reader[2]);
                 var modified = Convert.ToBoolean(reader[3]);
-                if(cases.Last() == null || caseNumber != cases.Last().CaseNumber)   // new case
+                if(cases.Count == 0 || caseNumber != cases.Last().CaseNumber)   // new case
                 {
                     cases.Add(new AlgCase(CaseType.OLL, caseNumber));
                 }
@@ -40,7 +46,7 @@ ORDER BY alg_case.case_number";
                         sourceNumber = sourceMap[(int)sourceId];
                     else
                     {
-                        sourceMap.Add((int)sourceId, sourceMap.Count + 1);
+                        sourceMap.Add((int)sourceId, sourceMap.Count);
                         sourceId = sourceMap.Count;
                     }
                 }
@@ -50,8 +56,11 @@ ORDER BY alg_case.case_number";
             var idMap = GetSources(sourceMap.Keys.ToList(), conn);
             conn.Close();
             var sourceArray = new Source[sourceMap.Count];
-            foreach (var sourceId in sourceMap.Keys)
-                sourceArray[sourceMap[sourceId]] = idMap[sourceId];
+            var enumerator = sourceMap.GetEnumerator();
+            foreach (var entry in sourceMap)
+            {
+                sourceArray[entry.Value] = idMap[entry.Key];
+            }
 
             return new AlgPage(cases, sourceArray.ToList());
 
@@ -69,8 +78,8 @@ ORDER BY alg_case.case_number";
         public Dictionary<int, Source> GetSources(List<int> sourceIds, MySqlConnection conn)
         {
             sourceIds.Sort();
-            var query = @"SELECT source.id, source.desctiption, general_source.description, source.url 
-FROM source JOIN general_source ON source.eneral_source_id = general_source.id
+            var query = @"SELECT source.id, source.description, general_source.description, source.url 
+FROM source JOIN general_source ON source.general_source_id = general_source.id
 ORDER BY source.id"; 
             var cmd = new MySqlCommand(query, conn);
             var reader = cmd.ExecuteReader();
@@ -92,14 +101,6 @@ ORDER BY source.id";
                 }
             }
             return sources;
-        }
-
-
-
-
-        public MySqlConnection GetConnection()
-        {
-            return new MySqlConnection(DbSettings.CubingDbConnection);
         }
     }
 }
