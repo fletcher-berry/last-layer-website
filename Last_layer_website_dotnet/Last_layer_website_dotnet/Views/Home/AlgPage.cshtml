@@ -21,6 +21,12 @@
             <div class="Algs">
                 <h2>Algs</h2>
                 <table>
+                    <thead>
+                        <tr>
+                            <td>Image</td>
+                            <td>Algs</td>
+                        </tr>    
+                    </thead>
                     @foreach (var algCase in Model.Cases)
                     {
                         <partial name="CaseView" model="algCase" />

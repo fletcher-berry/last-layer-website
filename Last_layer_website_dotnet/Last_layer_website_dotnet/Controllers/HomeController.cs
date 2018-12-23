@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Last_layer_website_dotnet.Models;
 using Last_layer_website_dotnet.Database;
 using Cubing;
+using System.Drawing;
+using Last_layer_website_dotnet.Models.Cubes;
+using System.IO;
+using System.Drawing.Imaging;
+using System.Net.Http;
 
 namespace Last_layer_website_dotnet.Controllers
 {
@@ -32,20 +37,39 @@ namespace Last_layer_website_dotnet.Controllers
             return View("AlgPage", model);
         }
 
-        // right now, just checking that I can use the Cubing library
-        [Route("img/{id}")]
-        public IActionResult GetImage(int id)
+        [Route("img/{caseTypeStr}/{id:int}")]
+        public IActionResult GetImage(string caseTypeStr, int id)
         {
-            var cube = new OllCube();
-            cube.SetUpPosition(1);
-            return new JsonResult("it works!");
+            if (!Enum.TryParse<CaseType>(caseTypeStr, true, out CaseType caseType))
+            {
+                return Error("Invalid case type");
+            }
+            ICubeCore cube;
+            if (caseType == CaseType.OLL)
+                cube = new OllCubeCore();
+            else if (caseType == CaseType.OLLCP)
+                cube = new OllCubeCore();
+            else if (caseType == CaseType.OneLookLL)
+                cube = new OneLookLLCubeCore();
+            else
+                cube = new OllCubeCore();
+
+            if (id >= cube.GetNumPositions() || id < 0)
+                return Error("Invalid position number");
+
+            cube.SetUpPosition(id);
+            var bitmap = cube.DrawCore();
+            var stream = new MemoryStream();
+            bitmap.Save(stream, ImageFormat.Png);
+            stream.Position = 0;
+            return new FileStreamResult(stream, "image/png");
         }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(string message = "")
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier, Message = message });
         }
     }
 }
