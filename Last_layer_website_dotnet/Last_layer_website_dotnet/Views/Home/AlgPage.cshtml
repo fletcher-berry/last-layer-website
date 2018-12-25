@@ -19,13 +19,17 @@
         <partial name="header" />
         <div class="Content">
             <div class="Algs">
-                <h2>Algs</h2>
+                <h2>@(Model.CaseTypeMap[Model.CaseType]) algs</h2>
+                @if (Model.NextCaseType != null)
+                {
+                    <p>Click a picture to see @(Model.CaseTypeMap[(CaseType)Model.NextCaseType]) algs for the selected case.</p>
+                }
                 <table>
                     <thead>
                         <tr>
                             <td>Image</td>
                             <td>Algs</td>
-                        </tr>    
+                        </tr>
                     </thead>
                     @foreach (var algCase in Model.Cases)
                     {

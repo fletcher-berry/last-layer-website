@@ -9,5 +9,6 @@ namespace Last_layer_website_dotnet.Database
     public interface IAlgorithmService
     {
         AlgPage GetOll();
+        AlgPage GetLastLayer(CaseType caseType, int id);
     }
 }

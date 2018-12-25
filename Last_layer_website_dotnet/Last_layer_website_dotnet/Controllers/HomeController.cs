@@ -37,6 +37,17 @@ namespace Last_layer_website_dotnet.Controllers
             return View("AlgPage", model);
         }
 
+        [Route("algs/{caseTypeStr}/{id}")]
+        public IActionResult GetLastLayer(string caseTypeStr, int id)
+        {
+            if (!Enum.TryParse<CaseType>(caseTypeStr, true, out CaseType caseType))
+            {
+                return Error("Invalid case type");
+            }
+            var model = _algorithmService.GetLastLayer(caseType, id);
+            return View("AlgPage", model);
+        }
+
         [Route("img/{caseTypeStr}/{id:int}")]
         public IActionResult GetImage(string caseTypeStr, int id)
         {
@@ -48,7 +59,7 @@ namespace Last_layer_website_dotnet.Controllers
             if (caseType == CaseType.OLL)
                 cube = new OllCubeCore();
             else if (caseType == CaseType.OLLCP)
-                cube = new OllCubeCore();
+                cube = new OllcpCubeCore();
             else if (caseType == CaseType.OneLookLL)
                 cube = new OneLookLLCubeCore();
             else
