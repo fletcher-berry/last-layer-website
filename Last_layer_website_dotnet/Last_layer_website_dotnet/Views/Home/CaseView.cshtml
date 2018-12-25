@@ -24,7 +24,8 @@
             {
                 foreach(var alg in Model.Algorithms)
                 {
-                    <li class="alg">@alg.Alg <span class="source" style="display:none"> (@(alg.SourceNumber + (alg.Modified? "*" : "")) </span></li>
+                    <li class="alg">@alg.Alg <span class="Sources"> @(alg.SourceNumber != null ? "(" + (alg.SourceNumber + 1 + (alg.Modified ? "*" : "")) + ")" : "")</span></li>
+                   
                 }
             }
         </ul>

@@ -37,9 +37,25 @@
                     }
                 </table>
             </div>
-            <div class="Sources">
+            <div class="Source_area">
                 <button id="show_sources_button">Show sources</button>
+                <div class="Sources">
+                    <ul>
+                        @for (var k = 0; k < Model.Sources.Count; k++)
+                        {
+                            <li>
+                                @(k + 1): @(Model.Sources[k].SourceText)
+                                <br />
+                                @(Model.Sources[k].Url)
+                            </li>
+                        }
+                    </ul>
+                    <p>If there is a * next to the source number for an algorithm, this means the algorithm was modified in some way from the algorithm in the source website. 
+                    The modification could be that the algorithm was performed from a different angle, or the mirror or inverse of the algorithm was used. 
+                    Other modifications are possible. If the modification affects a vary small number of moves (like replacing D' with U' y), the algorithm will not be marked as modified.</p>
+                </div>
             </div>
         </div>
+        <partial name="footer" />
     </body>
 </html>

@@ -46,13 +46,11 @@ ORDER BY alg_case.case_number";
                 int? sourceNumber = null;
                 if (sourceId != null)
                 {
-                    if (sourceMap.ContainsKey((int)sourceId))
-                        sourceNumber = sourceMap[(int)sourceId];
-                    else
+                    if (!sourceMap.ContainsKey((int)sourceId))
                     {
                         sourceMap.Add((int)sourceId, sourceMap.Count);
-                        sourceId = sourceMap.Count;
                     }
+                    sourceNumber = sourceMap[(int)sourceId];                  
                 }
                 cases.Last().Algorithms.Add(new Algorithm(algorithm, sourceNumber, modified));
             }

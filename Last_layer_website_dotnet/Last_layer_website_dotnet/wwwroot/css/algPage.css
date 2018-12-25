@@ -9,8 +9,13 @@ td {
 }
 
 .Sources {
+    display: none;
+}
+
+.Source_area {
     background-color: #ddeebb;
     padding: 5px;
+    margin: 0px;
 }
 
 .alg {

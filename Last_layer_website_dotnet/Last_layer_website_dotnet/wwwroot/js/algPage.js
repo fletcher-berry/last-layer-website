@@ -1,14 +1,27 @@
 ﻿$(document).ready(function (e) {
-    var showSources = false;
+    showSources = false;
+    var setSourceButtonText = function () {
+        if (showSources) {
+            $("#show_sources_button").text("Hide Sources");
+            $(".Sources").show();
+        }
+        else {
+            $("#show_sources_button").text("Show Sources");
+            $(".Sources").hide();
+        }
+    };
+
+    if (showSources) {
+        $(".Sources").show();
+    }
+
+
     console.log("working");
     $("#show_sources_button").click(() => {
         console.log("clicked");
         showSources = !showSources;
-        if (showSources) {
-            $("#show_sources_button").text("Hide Sources");
-        }
-        else {
-            $("#show_sources_button").text("Show Sources");
-        }
+        setSourceButtonText();
     });
+
+    
 })
